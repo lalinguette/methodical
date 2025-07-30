@@ -32,6 +32,13 @@ def detect_max_depth(headlines: list) -> int:
     depth = max([hl.count("#") for hl in headlines])
     return depth
 
+def reset_counter(counter, old_pos):
+    for i, c in enumerate(counter):
+        if i >= old_pos:
+            counter[i] = 0
+
+    return counter
+
 def add_depth(headlines: list, max_depth: int) -> list:
     """
     add chapter numbers of correct depth to each headline. remove the markdown marker
@@ -46,11 +53,11 @@ def add_depth(headlines: list, max_depth: int) -> list:
     for hl in headlines:
         pos = hl.count("#") - 1
         if pos < old_pos:
-            # todo: counter needs to reset if indentation is reduced
-            pass
+            counter = reset_counter(counter, old_pos)
         counter[pos] = counter[pos] + 1
         new_headline = ".".join(str(el) for el in counter) + " " + hl.strip("#").strip()
         result.append(new_headline)
+        old_pos = pos
     return result
 
 
