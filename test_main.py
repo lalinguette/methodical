@@ -1,0 +1,43 @@
+from main import extract_all_headlines, open_file, detect_max_depth, add_depth
+
+data = """# Headline 1
+
+blabla
+
+## Headline 1.1
+
+## Headline 1.2
+
+### Headline 1.2.1
+
+## Headline 1.3
+"""
+
+data_cleaned = ['# Headline 1', '', 'blabla', '', '## Headline 1.1', '', '## Headline 1.2', '', '### Headline 1.2.1', '', '## Headline 1.3']
+headlines = ['# Headline 1', '## Headline 1.1', '## Headline 1.2', '### Headline 1.2.1', '## Headline 1.3']
+
+
+def test_open():
+    actual = open_file()
+    data_ = data.splitlines()
+    assert actual == data_
+
+
+def test_extract():
+    len_headlines = 5
+    actual = len(extract_all_headlines(data_cleaned))
+
+    assert actual == len_headlines
+
+def test_detect_max():
+    actual = detect_max_depth(data_cleaned)
+    assert actual == 3
+
+def test_add_depth():
+    actual = add_depth(headlines, 3)
+    expected = ["1.0.0 Headline 1",
+"1.1.0 Headline 1.1",
+"1.2.0 Headline 1.2",
+"1.2.1 Headline 1.2.1",
+"1.3.0 Headline 1.3", ]
+    assert actual == expected
