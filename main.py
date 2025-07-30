@@ -2,6 +2,8 @@
 Small program that takes a markdown file as input.
 The headlines are extracted and put and parsed into a table of contents with chapter numbers
 """
+# todo: run tests automatically
+# todo: run linter automatically
 
 def open_file() -> list:
     """
