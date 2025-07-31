@@ -62,6 +62,13 @@ def add_depth(headlines: list, max_depth: int) -> list:
         old_pos = pos
     return result
 
+def assemble_toc(headlines: list) -> str:
+    """parse headline list to string"""
+    # todo: indent sub-chapters with a tab
+    toc = "# Table of Contents\n"
+    toc += "\n".join(headlines)
+    return toc
+
 
 def main():
     file = open_file()
@@ -69,8 +76,9 @@ def main():
     max_depth = detect_max_depth(headlines)
     headlines = add_depth(headlines, max_depth)
     # todo: add links to chapters
-    # todo: assemble ToC
-    # write ToC to top of file
+    toc = assemble_toc(headlines)
+    # todo: write ToC to top of file
+    print(toc)
     return headlines
 
 if __name__ == '__main__':
