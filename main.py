@@ -41,6 +41,13 @@ def reset_counter(counter, old_pos):
 
     return counter
 
+def remove_trailing_zeros(counter: list) -> list:
+    """remove trailing zeros from counter recursively"""
+    if counter[-1] == 0:
+        counter = remove_trailing_zeros(counter[:-1])
+    return counter
+
+
 def add_depth(headlines: list, max_depth: int) -> list:
     """
     add chapter numbers of correct depth to each headline. remove the markdown marker
@@ -57,7 +64,8 @@ def add_depth(headlines: list, max_depth: int) -> list:
         if pos < old_pos:
             counter = reset_counter(counter, old_pos)
         counter[pos] = counter[pos] + 1
-        new_headline = ".".join(str(el) for el in counter) + " " + hl.strip("#").strip()
+        removed_zeros = remove_trailing_zeros(counter)
+        new_headline = ".".join(str(el) for el in removed_zeros) + " " + hl.strip("#").strip()
         result.append(new_headline)
         old_pos = pos
     return result
