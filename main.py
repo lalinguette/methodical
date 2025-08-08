@@ -66,7 +66,7 @@ def add_depth(headlines: list, max_depth: int) -> list:
         counter[pos] = counter[pos] + 1
         removed_zeros = remove_trailing_zeros(counter)
         new_headline = ".".join(str(el) for el in removed_zeros) + " " + hl.strip("#").strip()
-        result.append(new_headline)
+        result.append(f"[{new_headline}]({hl})")
         old_pos = pos
     return result
 
