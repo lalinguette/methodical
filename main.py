@@ -83,7 +83,6 @@ def main():
     headlines = extract_all_headlines(file)
     max_depth = detect_max_depth(headlines)
     headlines = add_depth(headlines, max_depth)
-    # todo: add links to chapters
     toc = assemble_toc(headlines)
     # todo: write ToC to top of file
     print(toc)
