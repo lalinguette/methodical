@@ -50,12 +50,11 @@ def remove_trailing_zeros(counter: list) -> list:
 
 def add_depth(headlines: list, max_depth: int) -> list:
     """
-    add chapter numbers of correct depth to each headline. remove the markdown marker
+    add chapter numbers of correct depth to each headline. remove the markdown marker. add indentation based on depth
     :param headlines: list of strings starting with "#"
     :param max_depth: integer of the depth the ToC should take
     :return: list of new strings
     """
-    # todo: remove trailing zeros
     result = []
     counter = [0]*max_depth
     old_pos = 0
@@ -66,7 +65,7 @@ def add_depth(headlines: list, max_depth: int) -> list:
         counter[pos] = counter[pos] + 1
         removed_zeros = remove_trailing_zeros(counter)
         new_headline = ".".join(str(el) for el in removed_zeros) + " " + hl.strip("#").strip()
-        result.append(f"[{new_headline}]({hl})")
+        result.append(f"{'\t'*pos}[{new_headline}]({hl})")
         old_pos = pos
     return result
 

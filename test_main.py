@@ -36,10 +36,10 @@ def test_detect_max():
 def test_add_depth():
     actual = add_depth(headlines, 3)
     expected = ["[1 Headline 1](# Headline 1)",
-    "[1.1 Headline 1.1](## Headline 1.1)",
-    "[1.2 Headline 1.2](## Headline 1.2)",
-    "[1.2.1 Headline 1.2.1](### Headline 1.2.1)",
-    "[1.3 Headline 1.3](## Headline 1.3)", ]
+    "\t[1.1 Headline 1.1](## Headline 1.1)",
+    "\t[1.2 Headline 1.2](## Headline 1.2)",
+    "\t\t[1.2.1 Headline 1.2.1](### Headline 1.2.1)",
+    "\t[1.3 Headline 1.3](## Headline 1.3)", ]
     assert actual == expected
 
 
