@@ -2,6 +2,7 @@
 Small program that takes a markdown file as input.
 The headlines are extracted and put and parsed into a table of contents with chapter numbers
 """
+import argparse
 # todo: run tests automatically
 # todo: run linter automatically
 
@@ -74,9 +75,23 @@ def assemble_toc(headlines: list) -> str:
     toc += "\n".join(headlines)
     return toc
 
+def parse_args():
+    """Parse cmd-line arguments"""
+    parser = argparse.ArgumentParser(
+        prog='Methodical',
+        description='Extract headlines from a markdown file to write a ToC to the top of the file',
+        )
+
+    parser.add_argument('filename')
+
+    args = parser.parse_args()
+
+    return args
+
 
 def main():
-    file = open_file()
+    args = parse_args()
+    file = open_file(args.filename)
     headlines = extract_all_headlines(file)
     max_depth = detect_max_depth(headlines)
     headlines = add_depth(headlines, max_depth)
@@ -86,5 +101,4 @@ def main():
     return headlines
 
 if __name__ == '__main__':
-    # todo: arg parser to give files
     main()
