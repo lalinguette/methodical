@@ -5,13 +5,12 @@ The headlines are extracted and put and parsed into a table of contents with cha
 # todo: run tests automatically
 # todo: run linter automatically
 
-def open_file() -> list:
+def open_file(path: str) -> list:
     """
     open and read file. Return content as list split on line breaks
     :return: list
     """
-    # todo: take given file
-    with open("../methodical/example.md", "r",) as f:
+    with open(path, "r",) as f:
         file = f.read()
         file = file.splitlines()
     return file
@@ -71,7 +70,6 @@ def add_depth(headlines: list, max_depth: int) -> list:
 
 def assemble_toc(headlines: list) -> str:
     """parse headline list to string"""
-    # todo: indent sub-chapters with a tab
     toc = "# Table of Contents\n"
     toc += "\n".join(headlines)
     return toc

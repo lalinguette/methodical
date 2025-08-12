@@ -18,7 +18,8 @@ headlines = ['# Headline 1', '## Headline 1.1', '## Headline 1.2', '### Headline
 
 
 def test_open():
-    actual = open_file()
+    path = "../methodical/example.md"
+    actual = open_file(path)
     data_ = data.splitlines()
     assert actual == data_
 
