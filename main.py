@@ -3,6 +3,7 @@ Small program that takes a markdown file as input.
 The headlines are extracted and put and parsed into a table of contents with chapter numbers
 """
 import argparse
+import re
 # todo: run tests automatically
 # todo: run linter automatically
 
@@ -47,6 +48,15 @@ def remove_trailing_zeros(counter: list) -> list:
         counter = remove_trailing_zeros(counter[:-1])
     return counter
 
+def link_headline(hl: str) -> str:
+    """make actual headline into a link"""
+
+    hl = hl.strip("#").strip().lower()
+    hl = re.sub(r" ", "-", hl)
+    hl = re.sub(r"\.", "", hl)
+    hl = f"#{hl}"
+    return hl
+
 
 def add_depth(headlines: list, max_depth: int) -> list:
     """
@@ -64,8 +74,10 @@ def add_depth(headlines: list, max_depth: int) -> list:
             counter = reset_counter(counter, old_pos)
         counter[pos] = counter[pos] + 1
         removed_zeros = remove_trailing_zeros(counter)
-        new_headline = ".".join(str(el) for el in removed_zeros) + " " + hl.strip("#").strip()
-        result.append(f"{'\t'*pos}[{new_headline}]({hl})")
+        new_headline = ".".join(str(el) for el in removed_zeros) + " [" + hl.strip("#").strip() + "]"
+        linked_headline = link_headline(hl)
+        new_headline = f"{'\t'*pos}- {new_headline}({linked_headline})"
+        result.append(new_headline)
         old_pos = pos
     return result
 

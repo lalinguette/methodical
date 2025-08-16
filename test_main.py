@@ -1,4 +1,5 @@
-from main import extract_all_headlines, open_file, detect_max_depth, add_depth, reset_counter, assemble_toc, remove_trailing_zeros
+import pytest
+from main import extract_all_headlines, open_file, detect_max_depth, add_depth, reset_counter, assemble_toc, remove_trailing_zeros, link_headline
 
 data = """# Headline 1
 
@@ -34,13 +35,28 @@ def test_detect_max():
     actual = detect_max_depth(data_cleaned)
     assert actual == 3
 
+@pytest.mark.parametrize(
+    "headline, expected",
+    (
+        ["# Headline 1", "#headline-1"],
+        ["## Headline 1.1", "#headline-11"],
+        ["## Headline 1.2", "#headline-12"],
+        ["### Headline 1.2.1", "#headline-121"],
+        ["## Headline 1.3", "#headline-13"],
+    )
+)
+def test_link_headline(headline, expected):
+    actual = link_headline(headline)
+
+    assert actual == expected
+
 def test_add_depth():
     actual = add_depth(headlines, 3)
-    expected = ["[1 Headline 1](# Headline 1)",
-    "\t[1.1 Headline 1.1](## Headline 1.1)",
-    "\t[1.2 Headline 1.2](## Headline 1.2)",
-    "\t\t[1.2.1 Headline 1.2.1](### Headline 1.2.1)",
-    "\t[1.3 Headline 1.3](## Headline 1.3)", ]
+    expected = ["- 1 [Headline 1](#headline-1)",
+    "\t- 1.1 [Headline 1.1](#headline-11)",
+    "\t- 1.2 [Headline 1.2](#headline-12)",
+    "\t\t- 1.2.1 [Headline 1.2.1](#headline-121)",
+    "\t- 1.3 [Headline 1.3](#headline-13)", ]
     assert actual == expected
 
 
@@ -54,16 +70,16 @@ def test_resset_counter():
 
 def test_assemble_toc():
     expected = """# Table of Contents
-1.0.0 Headline 1
-1.1.0 Headline 1.1
-1.2.0 Headline 1.2
-1.2.1 Headline 1.2.1
-1.3.0 Headline 1.3"""
-    input_ = ["1.0.0 Headline 1",
-"1.1.0 Headline 1.1",
-"1.2.0 Headline 1.2",
-"1.2.1 Headline 1.2.1",
-"1.3.0 Headline 1.3", ]
+- 1 [Headline 1](#headline-1)
+\t- 1.1 [Headline 1.1](#headline-11)
+\t- 1.2 [Headline 1.2](#headline-12)
+\t\t- 1.2.1 [Headline 1.2.1](#headline-121)
+\t- 1.3 [Headline 1.3](#headline-13)"""
+    input_ = ["- 1 [Headline 1](#headline-1)",
+    "\t- 1.1 [Headline 1.1](#headline-11)",
+    "\t- 1.2 [Headline 1.2](#headline-12)",
+    "\t\t- 1.2.1 [Headline 1.2.1](#headline-121)",
+    "\t- 1.3 [Headline 1.3](#headline-13)", ]
     actual = assemble_toc(input_)
     assert actual == expected
 
