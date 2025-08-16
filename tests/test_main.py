@@ -1,5 +1,5 @@
 import pytest
-from main import (
+from methodical.main import (
     extract_all_headlines,
     open_file,
     detect_max_depth,
@@ -40,7 +40,7 @@ headlines = ["# Headline 1", "## Headline 1.1", "## Headline 1.2", "### Headline
 
 
 def test_open():
-    path = "../methodical/test_example.md"
+    path = "tests/test_example.md"
     actual = open_file(path)
     data_ = data.splitlines()
     assert actual == data_
