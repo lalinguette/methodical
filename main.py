@@ -2,20 +2,26 @@
 Small program that takes a markdown file as input.
 The headlines are extracted and put and parsed into a table of contents with chapter numbers
 """
+
 import argparse
 import re
+
 # todo: run tests automatically
-# todo: run linter automatically
+
 
 def open_file(path: str) -> list:
     """
     open and read file. Return content as list split on line breaks
     :return: list
     """
-    with open(path, "r",) as f:
+    with open(
+        path,
+        "r",
+    ) as f:
         file = f.read()
         file = file.splitlines()
     return file
+
 
 def extract_all_headlines(file: list) -> list:
     """
@@ -26,6 +32,7 @@ def extract_all_headlines(file: list) -> list:
     headlines = [line for line in file if line.startswith("#")]
     return headlines
 
+
 def detect_max_depth(headlines: list) -> int:
     """
     detect the maximum depth the chapter numbers of the TOC will need
@@ -35,6 +42,7 @@ def detect_max_depth(headlines: list) -> int:
     depth = max([hl.count("#") for hl in headlines])
     return depth
 
+
 def reset_counter(counter, old_pos):
     for i, c in enumerate(counter):
         if i >= old_pos:
@@ -42,11 +50,13 @@ def reset_counter(counter, old_pos):
 
     return counter
 
+
 def remove_trailing_zeros(counter: list) -> list:
     """remove trailing zeros from counter recursively"""
     if counter[-1] == 0:
         counter = remove_trailing_zeros(counter[:-1])
     return counter
+
 
 def link_headline(hl: str) -> str:
     """make actual headline into a link"""
@@ -66,7 +76,7 @@ def add_depth(headlines: list, max_depth: int) -> list:
     :return: list of new strings
     """
     result = []
-    counter = [0]*max_depth
+    counter = [0] * max_depth
     old_pos = 0
     for hl in headlines:
         pos = hl.count("#") - 1
@@ -81,26 +91,29 @@ def add_depth(headlines: list, max_depth: int) -> list:
         old_pos = pos
     return result
 
+
 def assemble_toc(headlines: list) -> str:
     """parse headline list to string"""
     toc = "# Table of Contents\n"
     toc += "\n".join(headlines)
     return toc
 
+
 def write_toc(path, toc):
-    with open(path, 'r+') as file:
+    with open(path, "r+") as file:
         content = file.read()
         file.seek(0, 0)
-        file.write(toc.rstrip('\r\n') + '\n' + content)
+        file.write(toc.rstrip("\r\n") + "\n" + content)
+
 
 def parse_args():
     """Parse cmd-line arguments"""
     parser = argparse.ArgumentParser(
-        prog='Methodical',
-        description='Extract headlines from a markdown file to write a ToC to the top of the file',
-        )
+        prog="Methodical",
+        description="Extract headlines from a markdown file to write a ToC to the top of the file",
+    )
 
-    parser.add_argument('filename')
+    parser.add_argument("filename")
 
     args = parser.parse_args()
 
@@ -118,5 +131,6 @@ def main():
     print(toc)
     return headlines
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()
