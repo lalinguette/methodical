@@ -87,6 +87,12 @@ def assemble_toc(headlines: list) -> str:
     toc += "\n".join(headlines)
     return toc
 
+def write_toc(path, toc):
+    with open(path, 'r+') as file:
+        content = file.read()
+        file.seek(0, 0)
+        file.write(toc.rstrip('\r\n') + '\n' + content)
+
 def parse_args():
     """Parse cmd-line arguments"""
     parser = argparse.ArgumentParser(
@@ -108,7 +114,7 @@ def main():
     max_depth = detect_max_depth(headlines)
     headlines = add_depth(headlines, max_depth)
     toc = assemble_toc(headlines)
-    # todo: write ToC to top of file
+    write_toc(args.filename, toc)
     print(toc)
     return headlines
 
