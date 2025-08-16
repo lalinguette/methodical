@@ -1,7 +1,13 @@
 # methodical
 A simple tool that scans markdown pages for headlines and assembles them in a table of contents
 
+## How to install localy
 
+```bash
+python -m pip install build
+python -m build
+pip install -e .
+```
 
 
 ## Contributing
