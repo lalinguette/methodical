@@ -16,3 +16,6 @@ authors = [
 
 [project.urls]
 Homepage = "https://github.com/lalinguette/methodical"
+
+[project.scripts]
+methodical = "methodical.main:main"
